@@ -77,7 +77,7 @@ int main(int argc, const char * argv[]) {
     std::ofstream out;
     in.open(icon.c_str());
     in.read(&data, 4096);
-    strcpy
+    strcpy(icondata, const_cast<const char *>(data));
     while (in.good() && !in.eof()) {
         in.read(&data, 4096);
         strcat(icondata, const_cast<const char *>(data));
@@ -115,7 +115,18 @@ int main(int argc, const char * argv[]) {
     out << manifest;
     out.close();
     out.open(std::string(dir + "background.js").c_str());
-    out << "var canvas = document.createElement('canvas'); var context = canvas.getContext('2d'); var img = document.createElement('img'); img.src = 'data:image/png;base64, " << base64_encode() "'; var xhr = new XMLHttpRequest(); xhr.open(\"GET\", \"http://dweet.io/dweet/for/jmw_croutonapp" << id << "?program=" << argv[1] << "\", true); xhr.setRequestHeader(\"Content-Type\", \"text/json; charset=UTF-8\"); xhr.send();";
+    out << "var canvas = document.createElement('canvas');"
+      "var context = canvas.getContext('2d');"
+      "var img = document.createElement('img');"
+      "img.src = 'data:image/png;base64, " << base64_encode(icondata) "';"
+      "canvas.width = img.width;"
+      "canvas.height = img.height;"
+      "context.drawImage(img, 0, 0 );"
+      "var myData = context.getImageData(0, 0, img.width, img.height);
+      "var xhr = new XMLHttpRequest();"
+      "xhr.open(\"GET\", \"http://dweet.io/dweet/for/jmw_croutonapp" << id << "?program=" << argv[1] << "\", true); "
+      "xhr.setRequestHeader(\"Content-Type\", \"text/json; charset=UTF-8\");"
+      "xhr.send();";
     out.close();
     system(std::string("cp " + icon + " " + dir + "icon_128.png").c_str());
     system(std::string("crxmake --pack-extension=" + dir).c_str());
