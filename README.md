@@ -18,6 +18,6 @@ You can run `startappserver` outside the chroot or `startgameserver` inside the 
 * `name`: The internal name of the app
 * `path`: The path of the file inside the chroot
 * `app name`: The name of the Chrome App
-* `app icon`: The path of the icon
-If `name` is one of `gnome, lxde, kde, xfce, unity`, the path will automatically be used from the script and it will launch in fullscreen. If you want to have your desktop inside a window, name your app something else and put the path to the launcher as the path.
+* `app icon`: The path of the icon  
+If `name` is one of `gnome, lxde, kde, xfce, unity`, the path will automatically be used from the script and it will launch in fullscreen. If you want to have your desktop inside a window, name your app something else and put the path to the launcher as the path.  
 When it finishes, the file will be dropped into your Downloads folder as <name>.crx if you ran it outside the chroot.
