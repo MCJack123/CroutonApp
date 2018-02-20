@@ -1,3 +1,5 @@
+// If you are using the modified extension to add an app icon, uncomment this line
+//#define CROUTONEXT_ICON
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -65,16 +67,16 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
     std::string icon;
-    char* data = malloc(4096);
     if (argc > 4) {
         icon = std::string(argv[4]);
     } else {
         icon = "icon_128.png";
     }
-    unsigned char* icondata = (unsigned char*)malloc(fileSize(icon.c_str()));
     Json::Value root;
     std::ifstream in;
     std::ofstream out;
+    char* data = malloc(4096);
+    unsigned char* icondata = (unsigned char*)malloc(fileSize(icon.c_str()));
     in.open(icon.c_str());
     in.read(&data, 4096);
     strcpy(icondata, const_cast<const char *>(data));
@@ -115,18 +117,20 @@ int main(int argc, const char * argv[]) {
     out << manifest;
     out.close();
     out.open(std::string(dir + "background.js").c_str());
-    out << "var canvas = document.createElement('canvas');"
-      "var context = canvas.getContext('2d');"
-      "var img = document.createElement('img');"
-      "img.src = 'data:image/png;base64, " << base64_encode(icondata) "';"
-      "canvas.width = img.width;"
-      "canvas.height = img.height;"
-      "context.drawImage(img, 0, 0 );"
-      "var myData = context.getImageData(0, 0, img.width, img.height);
-      "var xhr = new XMLHttpRequest();"
-      "xhr.open(\"GET\", \"http://dweet.io/dweet/for/jmw_croutonapp" << id << "?program=" << argv[1] << "\", true); "
-      "xhr.setRequestHeader(\"Content-Type\", \"text/json; charset=UTF-8\");"
-      "xhr.send();";
+    out << "var data = {};"
+        "var canvas = document.createElement('canvas');"
+        "var context = canvas.getContext('2d');"
+        "var img = document.createElement('img');"
+        "img.src = 'data:image/png;base64, " << base64_encode(icondata) << "';"
+        "canvas.width = img.width;"
+        "canvas.height = img.height;"
+        "context.drawImage(img, 0, 0);"
+        "var myData = context.getImageData(0, 0, img.width, img.height);"
+        "chrome.runtime.sendMessage(\"gcpneefbbnfalgjniomfjknbcgkbijom\", {name: \"" << argv[2] << "\", data: myData}, function(response) {return;});"
+        "var xhr = new XMLHttpRequest();"
+        "xhr.open(\"POST\", \"http://dweet.io/dweet/for/jmw_croutonapp" << id << "?program=" << argv[1] << "\", true);"
+        "xhr.setRequestHeader(\"Content-Type\", \"text/json; charset=UTF-8\");"
+        "xhr.send();";
     out.close();
     system(std::string("cp " + icon + " " + dir + "icon_128.png").c_str());
     system(std::string("crxmake --pack-extension=" + dir).c_str());
