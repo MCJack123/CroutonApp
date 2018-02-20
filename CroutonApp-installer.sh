@@ -1,5 +1,5 @@
 echo "Downloading package...";
-curl -o CroutonApp.tar.gz https://github.com/MCJack123/CroutonApp/raw/master/CroutonAppv1.tar.gz;
+curl -Lo CroutonApp.tar.gz https://github.com/MCJack123/CroutonApp/raw/master/CroutonAppv1.tar.gz;
 mkdir CroutonApp;
 cd CroutonApp;
 tar -xzf ../CroutonApp.tar.gz;
