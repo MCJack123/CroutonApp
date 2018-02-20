@@ -11,7 +11,7 @@ if [ "$(sudo edit-chroot -l $NAME | grep xiwi)" == "" ]; then
 	printf "Xiwi is missing from your chroot. Would you like to install it? (y/N) ";
 	read XIWI;
 	if [ "$XIWI" == "Y" || "$XIWI" == "y" ]; then
-		if [ -e "/usr/local/bin/crouton" || -e "/usr/bin/crouton" ]; then
+		if [[ -e "/usr/local/bin/crouton" || -e "/usr/bin/crouton" ]]; then
 			crouton -n "$NAME" -t xiwi -u;
 		else
 			if [ -e "~/Downloads/crouton" ]; then
