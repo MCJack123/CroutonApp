@@ -8,10 +8,10 @@ printf "Please enter the name of the chroot: ";
 read NAME;
 echo "$NAME" > ~/.croapp_chroot;
 if [ "$(sudo edit-chroot -l $NAME | grep xiwi)" == "" ]; then
-	printf "Xiwi is missing from your chroot. Would you like to install it? (y/n) ";
+	printf "Xiwi is missing from your chroot. Would you like to install it? (y/N) ";
 	read XIWI;
-	if [ "$XIWI" == "y" ]; then
-		if [[ -e "/usr/local/bin/crouton" || -e "/usr/bin/crouton" ]]; then
+	if [ "$XIWI" == "y" ] || [ "$XIWI" == "Y" ]; then
+		if [ -e "/usr/local/bin/crouton" ] || [ -e "/usr/bin/crouton" ]; then
 			crouton -n "$NAME" -t xiwi -u;
 		else
 			if [ -e "~/Downloads/crouton" ]; then
@@ -32,9 +32,9 @@ sudo cp -n chroot/bin/* "/mnt/stateful_partition/crouton/chroots/$NAME/usr/bin/"
 sudo cp -Rn chroot/croutonapp "/mnt/stateful_partition/crouton/chroots/$NAME/usr/share/";
 sudo cp -n system/addprogram system/startappserver /usr/local/bin/;
 sudo enter-chroot -n "$NAME" initprog;
-printf "Would you like to automatically start the server at startup? (y/n)";
+printf "Would you like to automatically start the server at startup? (y/N)";
 read START;
-if [ "$START" == "y" ]; then
+if [ "$START" == "y" ] || [ "$START" == "Y" ]; then
     echo "CHROOT=$NAME" > ~/Downloads/crouton.init;
     if [ "$(mount | grep \"on / type\" | grep rw)" == "" ]; then sudo mount -o remount,rw /; fi;
     sudo cp -n system/crouton.conf /etc/init/;
