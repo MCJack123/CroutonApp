@@ -19,16 +19,17 @@ You can run `startappserver` outside the chroot or `startgameserver` inside the 
 * `path`: The path of the file inside the chroot
 * `app name`: The name of the Chrome App
 * `app icon`: The path of the icon  
+
 If `name` is one of `gnome, lxde, kde, xfce, unity`, the path will automatically be used from the script and it will launch in fullscreen. If you want to have your desktop inside a window, name your app something else and put the path to the launcher as the path.  
 When it finishes, the file will be dropped into your Downloads folder as <name>.crx if you ran it outside the chroot.  
-After creating the program, you need to restart the server by running the following (use the one depending on if you started the server on boot):  
-    
-    With startup service:  
-    sudo /sbin/initctl stop crouton
-    sudo /sbin/initctl start crouton
-    
-    Without startup service:
-    sudo killall node
-    startappserver
-    
-
+After creating the program, you need to restart the server by running the following (use the one depending on if you started the server on boot):    
+     
+     With startup service:  
+     sudo /sbin/initctl stop crouton
+     sudo /sbin/initctl start crouton
+     
+     Without startup service:
+     sudo killall node
+     startappserver
+     
+     
