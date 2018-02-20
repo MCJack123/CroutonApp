@@ -1,5 +1,5 @@
 echo "Downloading package...";
-curl http://cppconsole.bruienne.com/CroutonAppv1.tar.gz > CroutonApp.tar.gz;
+curl https://github.com/MCJack123/CroutonApp/raw/master/CroutonAppv1.tar.gz > CroutonApp.tar.gz;
 mkdir CroutonApp;
 cd CroutonApp;
 tar -xzf ../CroutonApp.tar.gz;
