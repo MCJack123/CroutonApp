@@ -7,7 +7,7 @@ rm ../CroutonApp.tar.gz;
 printf "Please enter the name of the chroot: ";
 read NAME;
 echo "$NAME" > ~/.croapp_chroot;
-if [ "$(edit-chroot -l $NAME | grep xiwi)" == "" ]; then
+if [ "$(sudo edit-chroot -l $NAME | grep xiwi)" == "" ]; then
 	printf "Xiwi is missing from your chroot. Would you like to install it? (y/N) ";
 	read XIWI;
 	if [ "$XIWI" == "Y" || "$XIWI" == "y" ]; then
