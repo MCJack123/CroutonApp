@@ -8,7 +8,7 @@ Creates Chrome App links to programs inside a Crouton chroot.
 * Xiwi installed to the chroot (autoinstalls)
 
 # Installation
-Run `bash <(curl -s https://raw.githubusercontent.com/MCJack123/CroutonApp/master/CroutonApp-installer.sh)` to install.
+Run `bash <(curl -sL https://raw.githubusercontent.com/MCJack123/CroutonApp/master/CroutonApp-installer.sh)` to install.
 
 # Starting the server
 You can run `startappserver` outside the chroot or `startgameserver` inside the chroot to start the server. It must be running for any apps to be able to run.
