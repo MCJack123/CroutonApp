@@ -1,5 +1,3 @@
-// If you are using the modified extension to add an app icon, uncomment this line
-//#define CROUTONEXT_ICON
 #include <iostream>
 #include <fstream>
 #include <sstream>
