@@ -25,8 +25,7 @@ When it finishes, the file will be dropped into your Downloads folder as <name>.
 After creating the program, you need to restart the server by running the following (use the one depending on if you started the server on boot):    
      
      With startup service:  
-     sudo /sbin/initctl stop crouton
-     sudo /sbin/initctl start crouton
+     sudo /sbin/initctl restart crouton
      
      Without startup service:
      sudo killall node
