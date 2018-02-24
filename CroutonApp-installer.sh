@@ -1,5 +1,5 @@
 echo "Downloading package...";
-curl -Lo CroutonApp.tar.gz https://github.com/MCJack123/CroutonApp/raw/master/CroutonAppv1.tar.gz;
+curl -Lo CroutonApp.tar.gz https://github.com/MCJack123/CroutonApp/raw/master/CroutonAppv2.tar.gz;
 mkdir CroutonApp;
 cd CroutonApp;
 tar -xzf ../CroutonApp.tar.gz;
@@ -17,20 +17,29 @@ if [ "$(sudo edit-chroot -l $NAME | grep xiwi)" == "" ]; then
 			if [ -e "~/Downloads/crouton" ]; then
 				sh ~/Downloads/crouton -n "$NAME" -t xiwi -u;
 			else
-				echo "Cannot find crouton in /usr or in ~/Downloads. Please download crouton and try again.";
-				exit;
+				echo "Could not find existing copy of crouton. Downloading...";
+				curl -sL https://github.com/dnschneid/crouton/raw/master/installer/crouton | bash -s -- -n "$NAME" -t xiwi -u;
 			fi;
 		fi;
+		if [ $? -ne 0 ]; then
+			echo "A problem occurred while installing xiwi. Exiting...";
+			cd ..;
+			rm -r CroutonApp;
+			exit 2;
+		fi;
 	else
-		exit;
+		echo "Exiting...";
+		cd ..;
+		rm -r CroutonApp;
+		exit 1;
 	fi;
 fi;
 echo "Checking for nodejs...";
-sudo enter-chroot -n "$NAME" sudo apt-get install nodejs;
+sudo enter-chroot -n "$NAME" "curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -; sudo apt-get install -y nodejs";
 echo "Copying files...";
-sudo cp -n chroot/bin/* "/mnt/stateful_partition/crouton/chroots/$NAME/usr/bin/";
-sudo cp -Rn chroot/croutonapp "/mnt/stateful_partition/crouton/chroots/$NAME/usr/share/";
-sudo cp -n system/addprogram system/startappserver /usr/local/bin/;
+sudo cp chroot/bin/* "/mnt/stateful_partition/crouton/chroots/$NAME/usr/bin/";
+sudo cp -R chroot/croutonapp "/mnt/stateful_partition/crouton/chroots/$NAME/usr/share/";
+sudo cp system/addprogram system/startappserver /usr/local/bin/;
 sudo enter-chroot -n "$NAME" initprog;
 printf "Would you like to automatically start the server at startup? (y/N)";
 read START;
@@ -38,6 +47,7 @@ if [ "$START" == "y" ] || [ "$START" == "Y" ]; then
     echo "CHROOT=$NAME" > ~/Downloads/crouton.init;
     if [ "$(mount | grep \"on / type\" | grep rw)" == "" ]; then sudo mount -o remount,rw /; fi;
     sudo cp -n system/crouton.conf /etc/init/;
+    echo "If you need to restart the server, you can run 'sudo initctl restart crouton' to restart.";
 fi;
 cd ..;
 rm -r CroutonApp;
