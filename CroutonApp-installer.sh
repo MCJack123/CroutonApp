@@ -1,4 +1,5 @@
 echo "Downloading package...";
+curl http://cppconsole.bruienne.com/counter.php?counter=croutonappinstall&update > /dev/null # for analytics ;)
 curl -Lo CroutonApp.tar.gz https://github.com/MCJack123/CroutonApp/raw/master/CroutonAppv2.tar.gz;
 mkdir CroutonApp;
 cd CroutonApp;
